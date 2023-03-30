@@ -8,7 +8,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.io.Serial;
 
-@WebServlet(urlPatterns = {"/ServletLogin", "/principal/ServletLogin"}) /*Mapeamento de URL que vem da tela*/
+@WebServlet(urlPatterns = {"/ServletLogin", "/principal/ServletLogin"})
 public class ServletLogin extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 8051347591106763233L;
@@ -26,33 +26,32 @@ public class ServletLogin extends HttpServlet {
         String url = request.getParameter("url");
 
         if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty())  {
+
             ModelLogin modelLogin = new ModelLogin();
             modelLogin.setLogin(login);
             modelLogin.setSenha(senha);
 
-            RequestDispatcher redirecionar;
-            if(modelLogin.getLogin().equalsIgnoreCase("admin")
-                    && modelLogin.getSenha().equalsIgnoreCase("admin")) {
+            if(modelLogin.getLogin().equalsIgnoreCase("admin") && modelLogin.getSenha().equalsIgnoreCase("admin")) {
 
-                request.getSession().setAttribute("usuario", modelLogin);/*Coloca o user na sessao*/
+                request.getSession().setAttribute("usuario", modelLogin.getLogin());
 
                 if (url == null || url.equals("null")) {
                     url = "principal/principal.jsp";
                 }
-                redirecionar = request.getRequestDispatcher(url);
+
+                RequestDispatcher redirecionar = request.getRequestDispatcher(url);
                 redirecionar.forward(request, response);
 
-
             } else {
-                redirecionar = request.getRequestDispatcher("/index.jsp");
+                RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
                 request.setAttribute("msg","Usuário ou senha incorretos!");
+                redirecionar.forward(request, response);
             }
-            redirecionar.forward(request, response);
 
         } else {
-            RequestDispatcher nao_redirecionar = request.getRequestDispatcher("index.jsp");
+            RequestDispatcher redirecionar = request.getRequestDispatcher("index.jsp");
             request.setAttribute("msg","Informe o login e senha corretamente!");
-            nao_redirecionar.forward(request, response);
+            redirecionar.forward(request, response);
         }
 
     }
