@@ -37,13 +37,17 @@
     </style>
 </head>
 <body>
-<form method="post" action="login">
-    <tr>
-        <td>
-            <h1>Bem vindo ao login</h1>
-        </td>
-    </tr>
+
+
+    <form action="ServletLogin" method="post">
+    <input type="hidden" value="<%= request.getParameter("url") %>" name="url">
+
     <table>
+        <tr>
+            <td>
+                <h1>Bem vindo ao login</h1>
+            </td>
+        </tr>
         <tr>
             <td>
                 <label for="login">Login:</label>
@@ -64,7 +68,6 @@
     </table>
 </form>
 
-<h4>${msg}</h4>
-
+    <h4>${msg}</h4>
 </body>
 </html>
